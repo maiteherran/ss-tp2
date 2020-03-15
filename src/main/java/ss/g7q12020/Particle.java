@@ -27,15 +27,15 @@ public class Particle {
 //        this.y = y;
 //        this.radius = 0;
 //    }
-//    public Particle(long id, double x, double y, double vx, double vy, double radius) {
-//        this.id = id;
-//        this.x = x;
-//        this.y = y;
-//        this.vx = vx;
-//        this.vy = vy;
-//        this.radius = radius;
-//
-//    }
+    public Particle(long id, double x, double y, double vx, double vy, double radius) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.radius = radius;
+
+    }
 
     public Particle(double x, double y, double vx, double vy, double radius) {
         this.x = x;
