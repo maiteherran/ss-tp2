@@ -96,7 +96,8 @@ public class Main {
             file.write(
                     particle.getX() + " " +
                             particle.getY() + " " +
-                            particle.getAngle()
+                            particle.getVx() + " " +
+                            particle.getVy()
             );
             file.newLine();
         }
