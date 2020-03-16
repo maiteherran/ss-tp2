@@ -13,7 +13,7 @@ public class NeighborAlgorithm {
         //Map<Long, Set<Long>> idNeighborsMap = bruteForceAlgorithm(particleList,circularBorder,rc,length);
         long endTime = System.nanoTime();
         long totalTime = endTime - startTime;
-        System.out.println("Tiempo de ejecución del calculo de vecinos: " + totalTime / 1000000 + " ms");
+        //System.out.println("Tiempo de ejecución del calculo de vecinos: " + totalTime / 1000000 + " ms");
 
         return idNeighborsMap;
     }
@@ -50,7 +50,7 @@ public class NeighborAlgorithm {
 
         int m = (int) Math.floor(length / (rc + 2 * maxRadius));
         //int m = 2;
-        System.out.println("m = " + m);
+       // System.out.println("m = " + m);
 
         MatrixCell[][] areaMatrix = new MatrixCell[m][m];
         for (int i = 0; i < m; i++) {

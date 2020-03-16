@@ -11,8 +11,11 @@ public class ParticlesGenerator {
 
     private final static Double MIN_RADIUS = 0.0;
     private final static Double MAX_RADIUS = 0.0;
-    private final static Double MIN_VEL = 0.03;
-    private final static Double MAX_VEL = 0.03;
+    private final static Double MIN_ANGLE = 0.0;
+    private final static Double MAX_ANGLE = 2*Math.PI;
+//    private final static Double MIN_VEL = 0.03;
+//    private final static Double MAX_VEL = 0.03;
+    private final static double defaultSpeedModule = 0.03;
 
     private static AtomicInteger atomicInteger = new AtomicInteger(0);
 
@@ -25,12 +28,20 @@ public class ParticlesGenerator {
         Random rand = new Random();
         List<Particle> initialParticlesDisposition = new ArrayList<>();
         while (initialParticlesDisposition.size() != N) {
+//            Particle p = new Particle(
+//                    atomicInteger.incrementAndGet()-1,
+//                    rand.nextDouble() * L,
+//                    rand.nextDouble() * L,
+//                    rand.nextDouble() * (MAX_VEL - MIN_VEL) + MIN_VEL,
+//                    rand.nextDouble() * (MAX_VEL - MIN_VEL) + MIN_VEL,
+//                    rand.nextDouble() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS
+//            );
             Particle p = new Particle(
                     atomicInteger.incrementAndGet()-1,
                     rand.nextDouble() * L,
                     rand.nextDouble() * L,
-                    rand.nextDouble() * (MAX_VEL - MIN_VEL) + MIN_VEL,
-                    rand.nextDouble() * (MAX_VEL - MIN_VEL) + MIN_VEL,
+                    defaultSpeedModule,
+                    rand.nextDouble() * (MAX_ANGLE - MIN_ANGLE) + MIN_ANGLE,
                     rand.nextDouble() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS
             );
             boolean dontOverlap = initialParticlesDisposition.stream().noneMatch(particle ->

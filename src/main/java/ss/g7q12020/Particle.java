@@ -1,6 +1,7 @@
 package ss.g7q12020;
 
 import java.util.Objects;
+import java.util.Set;
 
 public class Particle {
 
@@ -12,6 +13,7 @@ public class Particle {
 
     double vx;
     double vy;
+    final double defaultSpeedModule = 0.03;
 
 //    public Particle(long id, double x, double y, double radius) {
 //        this.id = id;
@@ -27,12 +29,21 @@ public class Particle {
 //        this.y = y;
 //        this.radius = 0;
 //    }
-    public Particle(long id, double x, double y, double vx, double vy, double radius) {
+//    public Particle(long id, double x, double y, double vx, double vy, double radius) {
+//        this.id = id;
+//        this.x = x;
+//        this.y = y;
+//        this.vx = vx;
+//        this.vy = vy;
+//        this.radius = radius;
+//
+//    }
+    public Particle(long id, double x, double y, double speedModule, double angle, double radius) {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.vx = vx;
-        this.vy = vy;
+        this.vx = speedModule*Math.cos(angle);
+        this.vy = speedModule*Math.sin(angle);
         this.radius = radius;
 
     }
@@ -51,6 +62,22 @@ public class Particle {
         if (o == null || getClass() != o.getClass()) return false;
         Particle particle = (Particle) o;
         return id == particle.id;
+    }
+
+    public void move (double L, final double dt) {
+        final double x1 = (x + vx*dt) % L;
+        final double y1 = (y + vy*dt) % L;
+        x = (x1 > 0) ? x1 : x1 + L;
+        y = (y1 > 0) ? y1 : y1 + L;
+    }
+
+    public void changeAngle (final double newAngle) {
+        vx = Math.cos(newAngle)*defaultSpeedModule;
+        vy = Math.sin(newAngle)*defaultSpeedModule;
+    }
+
+    public double getAngle() {
+        return Math.atan2(vy, vx);
     }
 
     @Override
