@@ -171,48 +171,4 @@ public class NeighborAlgorithm {
         }
         return neighbors;
     }
-
-//    private static List<Particle> getParticleData(String staticFile, String dynamicFile) throws Exception {
-//        BufferedReader staticBuffer = new BufferedReader(new FileReader(new File(staticFile)));
-//        String str = staticBuffer.readLine();
-//        if (str == null) {
-//            throw new Exception();
-//        }
-//
-//        N = Long.parseLong(str);
-//        str = staticBuffer.readLine();
-//        if (str != null) {
-//            length = Double.parseDouble(str);
-//        } else {
-//            throw new Exception();
-//        }
-//
-//        List<Double> radiusList = new ArrayList<>();
-//        while ((str = staticBuffer.readLine()) != null) {
-//            String[] listStatic = str.split(" ");
-//            radiusList.add(Double.parseDouble(listStatic[0]));
-//        }
-//
-//        List<Particle> particleList = new ArrayList<>();
-//        BufferedReader dynamicBuffer = new BufferedReader(new FileReader(new File(dynamicFile)));
-//        str = dynamicBuffer.readLine();
-//        if (str == null) {//por ahora salteo t0
-//            throw new Exception();
-//        }
-//
-//        String[] dynamicFileList;
-//        int i = 0;
-//        while ((str = dynamicBuffer.readLine()) != null && (dynamicFileList = str.split(" ")).length > 1) {
-//            //la segunda condicion es para agarrar apenas t0
-//            particleList.add(
-//                    new Particle(atomicInteger.incrementAndGet(), Double.parseDouble(dynamicFileList[0]),
-//                            Double.parseDouble(dynamicFileList[1]),
-//                            Double.parseDouble(dynamicFileList[2]),
-//                            Double.parseDouble(dynamicFileList[3]),
-//                            radiusList.get(i++)
-//                    ));
-//        }
-//
-//        return particleList;
-//    }
 }
