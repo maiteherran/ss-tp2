@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class Main {
     private static  ProgramParameters parameters;
     private static BufferedWriter file;
+    private static BufferedWriter vaFile;
     private static List<Particle> particlesDisposition;
     private final static double defaultSpeedModule = 0.03;
 
@@ -19,7 +20,7 @@ public class Main {
 
         long startTime = System.nanoTime();
         try {
-            generateAutomation();
+            generateAutomation(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -27,7 +28,7 @@ public class Main {
         System.out.println("Tiempo de ejecución: "+ 1E-9*(System.nanoTime() - startTime)+ " segs");
     }
 
-    private static void generateAutomation() throws IOException {
+    private static void generateAutomation(boolean finalVa) throws IOException {
         //Creamos el archivo de output
         file= new BufferedWriter(new FileWriter("output.txt"));
 
@@ -41,6 +42,9 @@ public class Main {
         for (int i = 1; i < parameters.getI() ; i++) {
              moveParticles();
              writeOnFile(i);
+             if(!finalVa){
+                 writeOnFileVa(i, calculateVa());
+             }
         }
 
         //Cerramos el archivo output
@@ -100,6 +104,95 @@ public class Main {
                             particle.getVy()
             );
             file.newLine();
+        }
+    }
+
+    private static void writeOnFileVa(long time, double va) throws IOException {
+        vaFile.write(String.valueOf(time) + ' ' + va);
+        vaFile.newLine();
+    }
+
+    private static void calculateVaNoise() {
+        try {
+            for (int k = 1; k <= 5; k++) {
+                System.out.println(k);
+                vaFile = new BufferedWriter(new FileWriter("vaOutputNoise" + k + ".txt"));
+                parameters.setI(1000);
+                double density = 4;
+                int[] nList = {50, 100, 500};
+                for (int j : nList) {
+                    parameters.setN(j);
+                    System.out.println("N" + parameters.getN());
+                    parameters.setL(Math.sqrt(parameters.getN() / density));
+                    parameters.setRc(1.0);
+                    for (double i = 0; i <= 5; i += 0.5) {
+                        parameters.setNoise(i);
+                        System.out.println("Noise: " + parameters.getNoise());
+                        vaFile.write("N: " + parameters.getN() +
+                                " ruido: " + parameters.getNoise());
+                        vaFile.newLine();
+                        generateAutomation(false);
+                    }
+                }
+                vaFile.close();
+            }
+        } catch (IOException e) {
+            System.out.println("error");
+            e.printStackTrace();
+        }
+    }
+
+    private static void calculateToItGraph() {
+        try {
+            vaFile = new BufferedWriter(new FileWriter("vaOutputIter.txt"));
+            parameters.setI(600);
+            double density = 4;
+            int[] nList = {50, 100};
+            for (int j : nList) {
+                parameters.setN(j);
+                System.out.println("N" + parameters.getN());
+                parameters.setL(Math.sqrt(parameters.getN() / density));
+                parameters.setRc(1.0);
+                for (double i = 0; i <= 4; i += 0.5) {
+                    parameters.setNoise(i);
+                    System.out.println("Noise: " + parameters.getNoise());
+                    vaFile.write("N: " + parameters.getN() +
+                            " ruido: " + parameters.getNoise());
+                    vaFile.newLine();
+                    generateAutomation(false);
+                }
+            }
+            vaFile.close();
+
+        } catch (IOException e) {
+            System.out.println("error");
+            e.printStackTrace();
+        }
+    }
+
+    private static void calculateVaDensity() {
+        try {
+            for (int k = 1; k <= 5; k++) {
+                vaFile = new BufferedWriter(new FileWriter("vaOutputDensity" + k + ".txt"));
+                parameters.setI(500);
+                parameters.setNoise(2.0);
+                parameters.setL(10.0);
+                parameters.setRc(1.0);
+                for (int i = 1; i <= 10; i++) {//busco primero los puntos de va que se estabiliza con mismo ruido
+                    parameters.setN(100 * i);
+                    Double density = parameters.getN() / (parameters.getL() * parameters.getL());
+                    System.out.println(density);
+                    vaFile.write("N: " + parameters.getN() +
+                            " densidad: " + density);
+                    vaFile.newLine();
+                    System.out.println(parameters);
+                    generateAutomation(false);
+                }
+                vaFile.close();
+            }
+        } catch (IOException e) {
+            System.out.println("error");
+            e.printStackTrace();
         }
     }
 

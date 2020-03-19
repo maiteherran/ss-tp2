@@ -72,6 +72,26 @@ public class ProgramParameters {
         return i;
     }
 
+    public void setN(long n) {
+        N = n;
+    }
+
+    public void setI(long i) {
+        this.i = i;
+    }
+
+    public void setL(Double l) {
+        L = l;
+    }
+
+    public void setRc(Double rc) {
+        Rc = rc;
+    }
+
+    public void setNoise(Double noise) {
+        this.noise = noise;
+    }
+
 
     @Override
     public String toString() {
