@@ -24,11 +24,14 @@ public class Main {
 //            parameters.setI(500);
 //            parameters.setNoise(1.0);
 //            parameters.setL(10.0);
+//            parameters.setRc(1.0);
 //            for (int i = 1; i <= 10; i++) {//busco primero los puntos de va que se estabiliza con mismo ruido
-//                Double density = (100.0 * i) / (parameters.getL() * parameters.getL());
-//                System.out.println(density);
 //                parameters.setN(100 * i);
-//                parameters.setRc(parameters.getL() / 10);
+//                Double density = parameters.getN() / (parameters.getL() * parameters.getL());
+//                System.out.println(density);
+//                vaFile.write("N: " + parameters.getN() +
+//                   " densidad: " + density);
+//               vaFile.newLine();
 //                generateAutomation();
 //            }
 //            vaFile.close();
@@ -39,7 +42,7 @@ public class Main {
         //long finishTime = System.nanoTime();
         //System.out.println("Tiempo de ejecución: "+ 1E-9*(finishTime - startTime)+ " segs");
         try {
-            vaFile = new BufferedWriter(new FileWriter("vaOutputNoise1.txt"));
+            vaFile = new BufferedWriter(new FileWriter("vaOutputNoise2.txt"));
             parameters.setI(500);
             double density = 4;
             int[] nList = {50, 100, 500, 2000};
@@ -47,10 +50,13 @@ public class Main {
                 parameters.setN(j);
                 System.out.println("N"+parameters.getN());
                 parameters.setL(Math.sqrt(parameters.getN()*density));
-                parameters.setRc(parameters.getL()/10);
+                parameters.setRc(1.0);
                 for (double i = 0; i <= 5; i+=0.5) {
                     parameters.setNoise(i);
                     System.out.println("Noise: "+parameters.getNoise());
+                    vaFile.write("N: " + parameters.getN() +
+                            " ruido: " + parameters.getNoise());
+                    vaFile.newLine();
                     generateAutomation();
                 }
             }
@@ -65,10 +71,6 @@ public class Main {
     private static void generateAutomation() throws IOException {
         //Creamos el archivo de output
         file = new BufferedWriter(new FileWriter("output.txt"));
-        Double density = parameters.getN() / (parameters.getL() * parameters.getL());
-        vaFile.write("N: " + parameters.getN() +
-                " ruido: " + parameters.getNoise());
-        vaFile.newLine();
 
         ParticlesGenerator initialParticlesGenerator = new ParticlesGenerator(parameters.getN(), parameters.getL());
         particlesDisposition = initialParticlesGenerator.generate();
